@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using delivery.backoffice.Controllers.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace delivery.backoffice.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public IActionResult Index()
-        {
+    {
+
+            ViewData["UserInfo"] = GetUserInfo();
             ViewData["Title"] = "Dashboard";
             return View();
         }

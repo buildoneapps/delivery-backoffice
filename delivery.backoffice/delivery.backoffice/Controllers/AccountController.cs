@@ -9,6 +9,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RestEase;
+using delivery.backoffice.Utils;
+using Microsoft.AspNetCore.Hosting.Internal;
+using Microsoft.AspNetCore.Http;
+
 
 namespace delivery.backoffice.Controllers
 {
@@ -30,6 +34,7 @@ namespace delivery.backoffice.Controllers
         }
  
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Authenticate([FromForm] LoginModel loginModel)
         {
             try
@@ -46,9 +51,9 @@ namespace delivery.backoffice.Controllers
                 {
                     new Claim(ClaimTypes.Name, JsonConvert.SerializeObject(user)),
                 };
- 
+                
                 var userIdentity = new ClaimsIdentity(claims, "login");
- 
+     
                 ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
                 await HttpContext.Authentication.SignInAsync("CookieAuthentication", principal);
  
@@ -66,11 +71,14 @@ namespace delivery.backoffice.Controllers
           
         }
  
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.Authentication.SignOutAsync("CookieAuthentication");
-            return Redirect("/Account/Login");
+            return Ok(new
+            {
+                Ok = true
+            });
         }
         
         
