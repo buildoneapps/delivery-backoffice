@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using delivery.backoffice.API.Model.Proxy;
+using delivery.backoffice.Model;
 using RestEase;
 
 namespace delivery.backoffice.API
@@ -14,5 +15,11 @@ namespace delivery.backoffice.API
 
         [Get("user/me")]
         Task<UserProxy> GetUser([Header("Authorization")] string authorization);
+        
+        [Get("setting")]
+        Task<DataTableProxy<SettingProxy>> GetSettings([Header("Authorization")] string authorization, [Body]DataTablePayload payload);
+        
+        
+        
     }
 }

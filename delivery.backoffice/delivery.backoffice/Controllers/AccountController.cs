@@ -46,6 +46,8 @@ namespace delivery.backoffice.Controllers
                 }, true);
                 
                 var user = await _api.GetUser(token.Token);
+
+                user.Token = token.Token;
             
                 var claims = new List<Claim>
                 {

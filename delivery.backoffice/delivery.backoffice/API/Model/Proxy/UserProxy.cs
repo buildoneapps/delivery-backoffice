@@ -13,6 +13,8 @@ namespace delivery.backoffice.API.Model.Proxy
         
         public string ImageUrl { get; set; }
         
+        public string Token { get; set; }
+        
 //        public List<VehicleGategoryProxy> VehicleCategories { get; set; }
     }
 }

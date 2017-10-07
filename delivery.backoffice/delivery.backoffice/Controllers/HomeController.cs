@@ -12,7 +12,7 @@ namespace delivery.backoffice.Controllers
     public class HomeController : BaseController
     {
         public IActionResult Index()
-    {
+        {
 
             ViewData["UserInfo"] = GetUserInfo();
             ViewData["Title"] = "Dashboard";
