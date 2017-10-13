@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using delivery.backoffice.API.Model.Proxy;
 using delivery.backoffice.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -52,6 +53,11 @@ namespace delivery.backoffice.Controllers.Base
 
             return payload;
 
+        }
+        
+        public async Task Logout()
+        {
+            await HttpContext.Authentication.SignOutAsync("CookieAuthentication");
         }
         
     }

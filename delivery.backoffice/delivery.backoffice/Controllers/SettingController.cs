@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using delivery.backoffice.API;
 using delivery.backoffice.Controllers.Base;
 using Microsoft.AspNetCore.Authorization;
@@ -22,17 +25,27 @@ namespace delivery.backoffice.Controllers
         {
             return View();
         }
-        
+
         [Post("list")]
         public async Task<IActionResult> List()
         {
             var user = GetUserInfo();
-            
+
             var payload = GetDataTablePayload();
-            
-            var proxy = await _api.GetSettings(user.Token, payload);
-            
-            return Json(proxy);
+
+            using (var proxy = await _api.GetSettings(user.Token, payload))
+            {
+                switch (proxy.ResponseMessage.StatusCode)
+                {
+                    case HttpStatusCode.OK:
+                        return Json(proxy.GetContent());
+                    case HttpStatusCode.Unauthorized:
+                        await Logout();
+                        return Redirect("Home/Index");
+                    default:
+                        return Redirect("Error");
+                }
+            }
         }
     }
 }

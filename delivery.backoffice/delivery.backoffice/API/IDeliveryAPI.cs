@@ -17,7 +17,8 @@ namespace delivery.backoffice.API
         Task<UserProxy> GetUser([Header("Authorization")] string authorization);
         
         [Get("setting")]
-        Task<DataTableProxy<SettingProxy>> GetSettings([Header("Authorization")] string authorization, [Body]DataTablePayload payload);
+        [AllowAnyStatusCode]
+        Task<Response<DataTableProxy<SettingProxy>>> GetSettings([Header("Authorization")] string authorization, [Body]DataTablePayload payload);
         
         
         
