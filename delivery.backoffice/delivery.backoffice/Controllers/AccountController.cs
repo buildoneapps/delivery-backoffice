@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace delivery.backoffice.Controllers
 {
+    [AllowAnonymous]
     public class AccountController : Controller
     {
 
@@ -44,30 +46,38 @@ namespace delivery.backoffice.Controllers
                     {"username", loginModel.username},
                     {"password", loginModel.password}
                 }, true);
-                
+
                 var user = await _api.GetUser(token.Token);
 
                 user.Token = token.Token;
-            
+
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, JsonConvert.SerializeObject(user)),
                 };
-                
+
                 var userIdentity = new ClaimsIdentity(claims, "login");
-     
+
                 ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
                 await HttpContext.Authentication.SignInAsync("CookieAuthentication", principal);
- 
+
                 //Just redirect to our index after logging in. 
-                return Ok(new { accessGranted = true});
-                
+                return Ok(new {accessGranted = true});
+
             }
             catch (RestEase.ApiException exception)
             {
                 var result = JsonConvert.DeserializeObject<AuthFailed>(exception.Content);
                 result.AccessGranted = false;
-                
+
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                var result = new AuthFailed();
+                result.Message = "Usuário e/u senha inválido(s)!";
+                result.AccessGranted = false;
+
                 return Ok(result);
             }
           
