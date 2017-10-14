@@ -1,0 +1,295 @@
+﻿@using Microsoft.AspNetCore.Http.Internal
+@model delivery.backoffice.API.Model.Proxy.DriverProxy
+
+
+@{
+ViewBag.Title = ViewData["Title"];
+Layout = "_Layout";
+}
+<!-- Basic Setup -->
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        $("#menu_drivers").addClass("active");
+
+        var level = $("#Level").val();
+
+        $("#selectLevel").val(level);
+
+
+        $("#btnSubmit").on('click',
+            function () {
+                $("#Level").val($("#selectLevel").val());
+                $("#IsBlocked").val($('#isBlocked').is(":checked"));
+            });
+
+        $("#select-all").on('change', function (ev) {
+            var is_checked = $(this).is(':checked');
+
+            $(".album-image input[type='checkbox']").prop('checked', is_checked).trigger('change');
+        });
+
+        // Edit Modal
+        $('.gallery-env a[data-action="edit"]').on('click', function (ev) {
+            ev.preventDefault();
+            var img = $(this).data('url');
+            $("#img_modal").attr("src", img);
+
+            $("#gallery-image-modal").modal('show');
+        });
+
+        // Delete Modal
+        $('.gallery-env a[data-action="trash"]').on('click', function (ev) {
+            ev.preventDefault();
+            $("#gallery-image-delete-modal").modal('show');
+        });
+
+
+        // Sortable
+        $('.gallery-env a[data-action="sort"]').on('click', function (ev) {
+            ev.preventDefault();
+
+            var is_sortable = $(".album-images").sortable('instance');
+
+            if (!is_sortable) {
+                $(".gallery-env .album-images").sortable({
+                    items: '> div',
+                    containment: 'parent'
+                });
+
+                $(".album-sorting-info").stop().slideDown(300);
+            }
+            else {
+                $(".album-images").sortable('destroy');
+                $(".album-sorting-info").stop().slideUp(300);
+            }
+        });
+    });
+</script>
+
+<div class="row">
+    <div class="col-sm-12">
+
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#info" data-toggle="tab">
+			<span class="visible-xs">
+				<i class="fa-user"></i>
+			</span>
+                    <span class="hidden-xs">Informações</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#docs" data-toggle="tab">
+			<span class="visible-xs">
+				<i class="fa-book"></i>
+			</span>
+                    <span class="hidden-xs">Documentos</span>
+                </a>
+            </li>
+            <li>
+                <a href="#vehicles" data-toggle="tab">
+			<span class="visible-xs">
+				<i class="fa-car"></i>
+			</span>
+                    <span class="hidden-xs">Veículos</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane active" id="info">
+                <div class="row">
+                    <div class="col-sm-3">
+
+                        <div class="xe-widget xe-counter" data-count=".num" data-from="0" data-to="@Model.TotalDeliveries" data-duration="2">
+                            <div class="xe-icon">
+                                <i class="linecons-truck"></i>
+                            </div>
+                            <div class="xe-label">
+                                <strong class="num">99.9</strong>
+                                <span>Total de Entregas</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-3">
+
+                        <div class="xe-widget xe-counter xe-counter-blue" data-count=".num" data-from="0" data-to="@Model.TotalDeliveriesMoney" data-prefix="R$ " data-duration="3" data-easing="false">
+                            <div class="xe-icon">
+                                <i  style="background: #68b828;" class="linecons-money"></i>
+                            </div>
+                            <div class="xe-label">
+                                <strong class="num">R$ 117</strong>
+                                <span>Total entregas acumul.</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-3">
+
+                        <div class="xe-widget xe-counter xe-counter-blue" data-count=".num" data-from="0" data-to="@Model.TotalDeliveriesToPay" data-prefix="R$ " data-duration="3" data-easing="false">
+                            <div class="xe-icon">
+                                <i style="background: #68b828;" class="linecons-money"></i>
+                            </div>
+                            <div class="xe-label">
+                                <strong class="num">R$ 117</strong>
+                                <span>Total a pagar</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-3">
+
+                        <div class="xe-widget xe-counter xe-counter-red" data-count=".num" data-from="0" data-to="@Model.Rate" data-duration="5" data-easing="true" data-delay="1">
+                            <div class="xe-icon">
+                                <i class="linecons-star"></i>
+                            </div>
+                            <div class="xe-label">
+                                <strong class="num">57</strong>
+                                <span>Avaliações</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <form role="form" id="form1" method="post" action="/driver/edit" class="validate"
+                      novalidate="novalidate">
+                    <div class="row">
+                        @Html.HiddenFor(f => f.Level)
+                        @Html.HiddenFor(f => f.Id)
+                        @Html.HiddenFor(f => f.IsBlocked)
+                        <div class="form-group col-sm-6">
+                            <label class="control-label">Name</label>
+
+                            <input type="text" disabled value="@Model.Name" class="form-control" name="name">
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <label class="control-label">Cadastro</label>
+
+                            <input type="text" disabled value="@Model.RegisterDate" class="form-control"
+                                   name="registerDate">
+                        </div>
+
+                        <div class="form-group col-sm-3">
+                            <label class="control-label">Entregas</label>
+
+                            <input type="text" disabled value="@Model.DeliveryCount" class="form-control"
+                                   name="deliveryCount">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-sm-3">
+                            <label class="control-label">Cadastro</label>
+
+                            <select id="selectLevel" class="form-control">
+                                <option value="0">Aguardando Verificação</option>
+                                <option value="1">Verificado</option>
+                                <option value="2">Licenciado</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-sm-3">
+                            <label class="control-label">Bloqueado</label>
+                            <div class="form-block">
+                                <input type="checkbox" name="isBlocked" id="isBlocked" checked="@Model.IsBlocked"
+                                       class="iswitch iswitch-red">
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div style="margin-left: 15px" class="form-group">
+                            <button id="btnSubmit" type="submit" class="btn btn-success">Salvar</button>
+                            <a class="btn btn-white" href="~/setting/index">Cancelar</a>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="tab-pane" id="docs">
+                <section class="gallery-env">
+                    <div class="row">
+                        <div class="col-sm-12 gallery-right">
+                            <div class="album-images row">
+                                @foreach (var x in Model.Documents)
+                                {
+                                <!-- Album Image -->
+                                <div class="col-md-4 col-sm-4 col-xs-6">
+                                    <div class="album-image">
+                                        <a href="#" class="thumb" data-action="edit" data-url="@x.Url">
+                                            <img src="@x.Url" class="img-responsive">
+                                        </a>
+
+                                        <a href="#" class="name">
+                                            <span>@x.Name</span>
+                                        </a>
+
+
+                                        @*
+                                        <div class="image-checkbox">*@
+                                            @*
+                                            <div class="cbr-replaced cbr-checked">*@
+                                                @*
+                                                <div class="cbr-input"><input type="checkbox" class="cbr cbr-done">*@
+                                                    @*
+                                                </div>
+                                                *@
+                                                @*
+                                                <div class="cbr-state"><span></span>*@
+                                                    @*
+                                                </div>
+                                                *@
+                                                @*
+                                            </div>
+                                            *@
+                                            @*
+                                        </div>
+                                        *@
+                                    </div>
+                                </div>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+            <div class="tab-pane" id="vehicles">
+                <table class="table table-bordered table-striped table-condensed table-hover">
+                    <thead>
+                    <tr>
+                        <th>Tipo</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    @foreach (var v in Model.Vehicles)
+                    {
+                        <tr>
+                            <td>@v</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="gallery-image-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-gallery-image">
+                <img id="img_modal" src="~/images/album-image-full.jpg" class="img-responsive"/>
+            </div>
+
+            <div class="modal-footer modal-gallery-top-controls">
+                <button type="button" class="btn btn-xs btn-white" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>

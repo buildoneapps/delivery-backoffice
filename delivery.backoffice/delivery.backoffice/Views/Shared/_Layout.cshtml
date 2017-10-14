@@ -96,7 +96,7 @@
     <!-- Add "fixed" class to make the sidebar fixed always to the browser viewport. -->
     <!-- Adding class "toggle-others" will keep only one menu item open at a time. -->
     <!-- Adding class "collapsed" collapse sidebar root elements and show only icons. -->
-    <div class="sidebar-menu toggle-others fixed">
+    <div class="sidebar-menu toggle-others collapsed">
 
         <div class="sidebar-menu-inner">
 
@@ -139,20 +139,24 @@
             <ul id="main-menu" class="main-menu">
                 <!-- add class "multiple-expanded" to allow multiple submenus to open -->
                 <!-- class "auto-inherit-active-class" will automatically add "active" class for parent elements who are marked already with class "active" -->
-                <li class="active opened active">
-                    <a href="dashboard-1.html">
+                <li id="menu_dash">
+                    <a href="~/">
                         <i class="linecons-desktop"></i>
-                        <span class="title">Dashboard</span>
+                        <span  class="title">Dashboard</span>
                     </a>
-                    <a href="dashboard-1.html">
+                </li>
+                <li id="menu_drivers">
+                    <a href="~/driver/index">
                         <i class="linecons-truck"></i>
-                        <span class="title">Prestadores</span>
+                        <span class="title">Entregadores</span>
                     </a>
+                </li>
+                <li id="menu_settings">
                     <a href="~/setting/index">
                         <i class="linecons-cog"></i>
                         <span class="title">Configurações</span>
                     </a>
-
+                    
                 </li>
 
             </ul>
@@ -210,16 +214,27 @@
                         </li>
                     </ul>
                 </li>
-                @*			*@
-                @*					<li>*@
-                @*						<a href="#" data-toggle="chat">*@
-                @*							<i class="fa-comments-o"></i>*@
-                @*						</a>*@
-                @*					</li>*@
-
             </ul>
 
         </nav>
+        
+        <div class="page-title">
+
+            <div class="title-env">
+                <h1 class="title">@ViewData["Title"]</h1>
+                <p class="description">@ViewData["Description"]</p>
+            </div>
+
+            <div class="breadcrumb-env">
+
+                <ol class="breadcrumb bc-1">
+                    <li>
+                        <a href="~/"><i class="fa-home"></i>Home</a>
+                    </li>
+                </ol>
+            </div>
+
+        </div>
 
         @RenderBody()
 
@@ -330,9 +345,13 @@
 <script src="~/js/toastr/toastr.min.js"></script>
 
 <!-- Imported scripts on this page -->
+
+<script src="~/js/jquery-validate/jquery.validate.min.js"></script>
 <script src="~/js/datatables/dataTables.bootstrap.js"></script>
 <script src="~/js/datatables/yadcf/jquery.dataTables.yadcf.js"></script>
 <script src="~/js/datatables/tabletools/dataTables.tableTools.min.js"></script>
+
+<script src="~/js/jquery-ui/jquery-ui.min.js"></script>
 
 
 <!-- JavaScripts initializations and stuff -->

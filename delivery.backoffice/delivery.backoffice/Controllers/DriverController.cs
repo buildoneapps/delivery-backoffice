@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using delivery.backoffice.API;
 using delivery.backoffice.API.Model.Proxy;
 using delivery.backoffice.Controllers.Base;
-using Microsoft.AspNetCore.Authorization;
+using delivery.backoffice.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using RestEase;
 
 namespace delivery.backoffice.Controllers
 {
-    [Authorize]
-    public class SettingController : BaseController
+    public class DriverController : BaseController
     {
         private IDeliveryAPI _api;
 
-        public SettingController(IDeliveryAPI api)
+        public DriverController(IDeliveryAPI api)
         {
             _api = api;
         }
@@ -24,8 +22,8 @@ namespace delivery.backoffice.Controllers
         // GET
         public async Task<IActionResult> Index()
         {
-            ViewData["Title"] = "Configurações";
-            ViewData["Description"] = "Altere as configurações de toda a plataforma";
+            ViewData["Title"] = "Estregadores";
+            ViewData["Description"] = "Acompanhe os entregadores da plataforma";
             
             return View();
         }
@@ -33,16 +31,18 @@ namespace delivery.backoffice.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
-            ViewData["Title"] = "Editar configuração";
-            ViewData["Description"] = "Alteração reflete em toda a plataforma";
+            
+            ViewData["Title"] = "Detalhes do entregador";
+            ViewData["Description"] = "Acompanhe o entregador em tempo real";
             var user = GetUserInfo();
             
-            using (var proxy = await _api.GetSetting(user.Token, id))
+            using (var proxy = await _api.GetDriver(user.Token, id))
             {
                 switch (proxy.ResponseMessage.StatusCode)
                 {
                     case HttpStatusCode.OK:
-                        return View(proxy.GetContent());
+                        var f = proxy.GetContent();
+                        return View(f);
                     case HttpStatusCode.Unauthorized:
                         await Logout();
                         return Redirect("Home/Index");
@@ -53,11 +53,11 @@ namespace delivery.backoffice.Controllers
         }
         
         [HttpPost]
-        public async Task<IActionResult> Edit(SettingProxy model)
+        public async Task<IActionResult> Edit(Guid id,  bool isBlocked,  int level)
         {
             var user = GetUserInfo();
             
-            using (var proxy = await _api.SetSetting(user.Token, model))
+            using (var proxy = await _api.SetDriver(user.Token, id, isBlocked, level))
             {
                 switch (proxy.ResponseMessage.StatusCode)
                 {
@@ -79,18 +79,26 @@ namespace delivery.backoffice.Controllers
 
             var payload = GetDataTablePayload();
 
-            using (var proxy = await _api.GetSettings(user.Token, payload))
+            try
             {
-                switch (proxy.ResponseMessage.StatusCode)
+                using (var proxy = await _api.GetDrivers(user.Token, payload))
                 {
-                    case HttpStatusCode.OK:
-                        return Json(proxy.GetContent());
-                    case HttpStatusCode.Unauthorized:
-                        await Logout();
-                        return Redirect("Home/Index");
-                    default:
-                        return Redirect("Error");
+                    switch (proxy.ResponseMessage.StatusCode)
+                    {
+                        case HttpStatusCode.OK:
+                            var list = proxy.GetContent();
+                            return Json(list);
+                        case HttpStatusCode.Unauthorized:
+                            await Logout();
+                            return Redirect("Home/Index");
+                        default:
+                            return Redirect("Error");
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                return Redirect("Error");
             }
         }
     }

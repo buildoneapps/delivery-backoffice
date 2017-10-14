@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using delivery.backoffice.API.Model.Proxy;
 using delivery.backoffice.Model;
+using delivery.backoffice.ViewModel;
 using RestEase;
 
 namespace delivery.backoffice.API
-{
+{ 
+    [AllowAnyStatusCode]
     public interface IDeliveryAPI
     {
         [Post("auth/login")]
@@ -17,10 +20,25 @@ namespace delivery.backoffice.API
         Task<UserProxy> GetUser([Header("Authorization")] string authorization);
         
         [Get("setting")]
-        [AllowAnyStatusCode]
         Task<Response<DataTableProxy<SettingProxy>>> GetSettings([Header("Authorization")] string authorization, [Body]DataTablePayload payload);
         
+        [Get("setting/edit")]
+        Task<Response<SettingProxy>> GetSetting([Header("Authorization")] string authorization, [Query]Guid id);
         
+        [Put("setting")]
+        Task<Response<SettingProxy>> SetSetting([Header("Authorization")] string authorization, [Body]SettingProxy payload);   
+
+        
+        [Get("driver")]
+        [AllowAnyStatusCode]
+        Task<Response<DataTableProxy<DriverProxy>>> GetDrivers([Header("Authorization")] string authorization, [Body]DataTablePayload payload);
+        
+        [Get("driver/edit")]
+        Task<Response<DriverProxy>> GetDriver([Header("Authorization")] string authorization, [Query]Guid id);
+        
+        [Put("driver")]
+        Task<Response<DriverProxy>> SetDriver([Header("Authorization")] string authorization,
+            [Query]Guid id, [Query] bool isBlocked, [Query] int level);  
         
     }
 }

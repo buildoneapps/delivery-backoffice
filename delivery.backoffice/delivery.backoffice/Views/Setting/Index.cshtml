@@ -1,37 +1,16 @@
 ﻿@model List<delivery.backoffice.API.Model.Proxy.SettingProxy>
 
 @{
-    ViewBag.Title = "Configurações";
+    ViewBag.Title = ViewData["Title"];
     Layout = "_Layout";
 }
-
-
-<div class="page-title">
-
-    <div class="title-env">
-        <h1 class="title">Configurações</h1>
-        <p class="description">Altere as configurações de toda a plataforma</p>
-    </div>
-
-    <div class="breadcrumb-env">
-
-        <ol class="breadcrumb bc-1">
-            <li>
-                <a href="~/"><i class="fa-home"></i>Home</a>
-            </li>
-        </ol>
-    </div>
-
-</div>
-
-
 <!-- Basic Setup -->
 <div class="panel panel-default">
     <div class="panel-body">
 
         <script type="text/javascript">
             jQuery(document).ready(function($) {
-                
+                $("#menu_settings").addClass("active");
                 $("#example-1").dataTable({
                     "processing": true,
                     "serverSide": true,
@@ -49,11 +28,13 @@
                     }],  
                     "columns": [  
                         { "data": "name", "name": "Name", "width": "70%" },  
-                        { "data": "value", "name": "Value", "width": "20%" },  
+                        { "data": "value", "name": "Value", "width": "22%", "className": "text-center" },  
         
-                        {   "width": "10%",
+                        {   "width": "8%",
+                            "orderable": false,
+                            "className": "text-center",
                             "render": function (data, type, full, meta)  
-                                { return '<a class="btn btn-info" href="/DemoGrid/Edit/' + full.CustomerID + '">Editar</a>'; }  
+                                { return '<a class="btn btn-icon btn-blue" href="/setting/edit/' + full.id + '"><i class="fa-edit"></i></a>'; }  
                         }
                     ]  
                 });
