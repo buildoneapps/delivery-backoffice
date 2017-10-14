@@ -12,13 +12,34 @@ Layout = "_Layout";
         $("#menu_drivers").addClass("active");
 
         var level = $("#Level").val();
+        var blockedReason = $("#BlockedReason").val();
 
         $("#selectLevel").val(level);
+        
+        $("#selectBlockedReason").val(blockedReason);
+        
+        if ($('#isBlocked').is(':checked')) {
+            $("#selectBlockedReason").val(1);
+            $("#selectBlockedReason").prop('disabled', false);
+        } else {
+            $("#selectBlockedReason").val(-1);
+            $("#selectBlockedReason").prop('disabled', true);
+        }
 
+        $('#isBlocked').change(function() {
+            if ($(this).is(':checked')) {
+                $("#selectBlockedReason").val(1);
+                $("#selectBlockedReason").prop('disabled', false);
+            } else {
+                $("#selectBlockedReason").val(-1);
+                $("#selectBlockedReason").prop('disabled', true);
+            }
+        });
 
         $("#btnSubmit").on('click',
             function () {
                 $("#Level").val($("#selectLevel").val());
+                $("#BlockedReason").val($("#selectBlockedReason").val());
                 $("#IsBlocked").val($('#isBlocked').is(":checked"));
             });
 
@@ -159,6 +180,7 @@ Layout = "_Layout";
                         @Html.HiddenFor(f => f.Level)
                         @Html.HiddenFor(f => f.Id)
                         @Html.HiddenFor(f => f.IsBlocked)
+                        @Html.HiddenFor(f => f.BlockedReason)
                         <div class="form-group col-sm-6">
                             <label class="control-label">Name</label>
 
@@ -189,16 +211,26 @@ Layout = "_Layout";
                                 <option value="2">Licenciado</option>
                             </select>
                         </div>
-
-                        <div class="form-group col-sm-3">
-                            <label class="control-label">Bloqueado</label>
+                        <div class="form-group col-sm-1">
+                            <label class="control-label">Bloq.</label>
                             <div class="form-block">
                                 <input type="checkbox" name="isBlocked" id="isBlocked" checked="@Model.IsBlocked"
                                        class="iswitch iswitch-red">
                             </div>
 
                         </div>
+                        
+                        <div class="form-group col-sm-2">
+                            <label class="control-label">Motivo do Bloqueio</label>
+
+                            <select id="selectBlockedReason" class="form-control">
+                                <option value="0">Falta de Antecedentes Crimimais</option>
+                                <option value="1">Falta de Pagamento</option>
+                                <option value="99">Outros</option>
+                            </select>
+                        </div>
                     </div>
+                    
                     <div class="row">
                         <div style="margin-left: 15px" class="form-group">
                             <button id="btnSubmit" type="submit" class="btn btn-success">Salvar</button>

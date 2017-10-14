@@ -53,11 +53,11 @@ namespace delivery.backoffice.Controllers
         }
         
         [HttpPost]
-        public async Task<IActionResult> Edit(Guid id,  bool isBlocked,  int level)
+        public async Task<IActionResult> Edit(Guid id,  bool isBlocked, int blockedReason,  int level)
         {
             var user = GetUserInfo();
             
-            using (var proxy = await _api.SetDriver(user.Token, id, isBlocked, level))
+            using (var proxy = await _api.SetDriver(user.Token, id, isBlocked, blockedReason, level))
             {
                 switch (proxy.ResponseMessage.StatusCode)
                 {

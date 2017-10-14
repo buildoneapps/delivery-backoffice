@@ -13,6 +13,8 @@ namespace delivery.backoffice.API.Model.Proxy
         
         public bool IsBlocked { get; set; }
         
+        public int  BlockedReason { get; set; }
+        
         public double Rate { get; set; }
         
         public string RegisterDate { get; set; }

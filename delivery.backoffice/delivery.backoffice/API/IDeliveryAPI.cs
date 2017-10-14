@@ -38,7 +38,7 @@ namespace delivery.backoffice.API
         
         [Put("driver")]
         Task<Response<DriverProxy>> SetDriver([Header("Authorization")] string authorization,
-            [Query]Guid id, [Query] bool isBlocked, [Query] int level);  
+            [Query]Guid id, [Query] bool isBlocked, [Query] int reason, [Query] int level);  
         
     }
 }
