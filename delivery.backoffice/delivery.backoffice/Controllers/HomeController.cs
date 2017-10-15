@@ -44,6 +44,26 @@ namespace delivery.backoffice.Controllers
             
             return View();
         }
+        [HttpPost("info")]
+        public async Task<IActionResult> Post([FromForm] int type)
+        {
+            var user = GetUserInfo();
+            
+            using (var proxy = await _api.GetDashInfo(user.Token, type))
+            {
+                switch (proxy.ResponseMessage.StatusCode)
+                {
+                    case HttpStatusCode.OK:
+                        var f = proxy.GetContent();
+                        return Json(f);
+                    case HttpStatusCode.Unauthorized:
+                        await Logout();
+                        return Redirect("Home/Index");
+                    default:
+                        return Redirect("Error");
+                }
+            }
+        }
 
         public IActionResult About()
         {

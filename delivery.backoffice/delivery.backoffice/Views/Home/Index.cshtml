@@ -8,19 +8,54 @@
 <!-- Basic Setup -->
 <script type="text/javascript">
     jQuery(document).ready(function($) {
-                
+        $( "#selectFilter" ).change(function() {
+            //show_loading_bar(70); // Fill progress bar to 70% (just a given value)
+            
+            var type = $(this).val();
+            $.ajax({
+                type: "POST",
+                url: "/info",
+                data: {
+                    type : type
+                },
+                success: function(data) {
+                    $(".dash").fadeOut(200, function() {
+                        $(".pending").find('strong').text(data.opened);
+                        $(".executing").find('strong').text(data.executing);
+                        $(".finished").find('strong').text(data.finished);
+                        $(".dash").fadeIn(200);
+                    });
+                   
+                },
+                dataType: "json"
+            });
+        });
     });
 </script>
-        
+
 <div class="row">
+    <div class="col-sm-10">
+        
+    </div>
+    <div class="col-sm-2">
+        <select id="selectFilter" class="form-control">
+            <option value="0">Dia atual</option>
+            <option value="1">Útimos 7 dias</option>
+            <option value="2">Útimos 30 dias</option>
+            <option value="2">Sempre</option>
+        </select>
+    </div>
+</div>
+        
+<div class="row dash">
     <div class="col-sm-3">
 					
-        <div class="xe-widget xe-vertical-counter xe-vertical-counter-yellow" data-count=".num" data-from="0" data-to="@Model.Opened" data-duration="2.5">
+        <div  class="xe-widget xe-vertical-counter xe-vertical-counter-yellow" data-count=".num" data-from="0" data-to="@Model.Opened" data-duration="2.5">
             <div class="xe-icon">
                 <i class="linecons-truck"></i>
             </div>
 						
-            <div class="xe-label">
+            <div class="xe-label pending">
                 <strong class="num">0</strong>
                 <span>Entregas Pendentes</span>
             </div>
@@ -34,7 +69,7 @@
                 <i class="linecons-truck"></i>
             </div>
 						
-            <div class="xe-label">
+            <div class="xe-label executing">
                 <strong class="num">0</strong>
                 <span>Entregas em Execução</span>
             </div>
@@ -48,7 +83,7 @@
                 <i class="linecons-truck"></i>
             </div>
 						
-            <div class="xe-label">
+            <div class="xe-label finished">
                 <strong class="num">0</strong>
                 <span>Entregas Finalizadas</span>
             </div>
