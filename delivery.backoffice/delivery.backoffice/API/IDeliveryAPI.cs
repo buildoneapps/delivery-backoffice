@@ -36,6 +36,9 @@ namespace delivery.backoffice.API
         [Get("driver/edit")]
         Task<Response<DriverProxy>> GetDriver([Header("Authorization")] string authorization, [Query]Guid id);
         
+        [Get("dash")]
+        Task<Response<DashboardProxy>> GetDashInfo([Header("Authorization")] string authorization, [Query]int type);
+        
         [Put("driver")]
         Task<Response<DriverProxy>> SetDriver([Header("Authorization")] string authorization,
             [Query]Guid id, [Query] bool isBlocked, [Query] int reason, [Query] int level);  

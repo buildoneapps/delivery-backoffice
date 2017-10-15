@@ -1,1 +1,58 @@
-﻿OI :)
+﻿
+@model delivery.backoffice.API.Model.Proxy.DashboardProxy
+
+@{
+    ViewBag.Title = ViewData["Title"];
+    Layout = "_Layout";
+}
+<!-- Basic Setup -->
+<script type="text/javascript">
+    jQuery(document).ready(function($) {
+                
+    });
+</script>
+        
+<div class="row">
+    <div class="col-sm-3">
+					
+        <div class="xe-widget xe-vertical-counter xe-vertical-counter-yellow" data-count=".num" data-from="0" data-to="@Model.Opened" data-duration="2.5">
+            <div class="xe-icon">
+                <i class="linecons-truck"></i>
+            </div>
+						
+            <div class="xe-label">
+                <strong class="num">0</strong>
+                <span>Entregas Pendentes</span>
+            </div>
+        </div>
+					
+    </div>
+    <div class="col-sm-3">
+					
+        <div class="xe-widget xe-vertical-counter xe-vertical-counter-orange" data-count=".num" data-from="0" data-to="@Model.Executing" data-duration="2.5">
+            <div class="xe-icon">
+                <i class="linecons-truck"></i>
+            </div>
+						
+            <div class="xe-label">
+                <strong class="num">0</strong>
+                <span>Entregas em Execução</span>
+            </div>
+        </div>
+					
+    </div>
+    <div class="col-sm-3">
+					
+        <div class="xe-widget xe-vertical-counter xe-vertical-counte" data-count=".num" data-from="0" data-to="@Model.Finished" data-duration="4">
+            <div class="xe-icon">
+                <i class="linecons-truck"></i>
+            </div>
+						
+            <div class="xe-label">
+                <strong class="num">0</strong>
+                <span>Entregas Finalizadas</span>
+            </div>
+        </div>
+					
+    </div>
+</div>

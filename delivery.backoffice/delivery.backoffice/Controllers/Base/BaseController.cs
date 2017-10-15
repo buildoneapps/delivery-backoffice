@@ -26,8 +26,9 @@ namespace delivery.backoffice.Controllers.Base
         
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            if(GetUserInfo() != null)
-                ViewData["UserInfo"] = GetUserInfo();
+            var userInfo = GetUserInfo();
+            if(userInfo != null)
+                ViewData["UserInfo"] = userInfo;
         }
 
         public DataTablePayload GetDataTablePayload()
