@@ -14,6 +14,8 @@ Layout = "_Layout";
             jQuery(document).ready(function ($) {
                 
                 $("#menu_topics").addClass("active");
+
+                $("#selectType").val($("#Type").val());
                 
                 $("#btnSubmit").on('click',
                     function () {
@@ -25,9 +27,6 @@ Layout = "_Layout";
                         $("#Type").val($("#selectType").val());
                         $("#IsActive").val($('#isActive').is(":checked"));
                     });
-                
-                
-                
             });
         </script>
 

@@ -25,7 +25,7 @@ namespace delivery.backoffice.Controllers
         [HttpGet]
         public async Task<IActionResult> Create([FromQuery]Guid? id)
         {
-            ViewData["Title"] = id.HasValue ? "Criar Tópico" : "Editar Tópico";
+            ViewData["Title"] = !id.HasValue ? "Criar Tópico" : "Editar Tópico";
             ViewData["Description"] = "Crie e altere os tópicos mostrados nos aplicativos";
 
             var user = GetUserInfo();
