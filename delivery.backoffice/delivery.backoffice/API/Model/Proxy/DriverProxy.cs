@@ -23,7 +23,7 @@ namespace delivery.backoffice.API.Model.Proxy
         
         public List<DocumentProxy> Documents { get; set; }
         
-        public List<string> Vehicles { get; set; }
+        public List<VehicleProxy> Vehicles { get; set; }
         
         public int TotalDeliveries { get; set; }
         

@@ -19,6 +19,7 @@ namespace delivery.backoffice.API
         [Get("user/me")]
         Task<UserProxy> GetUser([Header("Authorization")] string authorization);
         
+        #region SETTING
         [Get("setting")]
         Task<Response<DataTableProxy<SettingProxy>>> GetSettings([Header("Authorization")] string authorization, [Body]DataTablePayload payload);
         
@@ -28,6 +29,25 @@ namespace delivery.backoffice.API
         [Put("setting")]
         Task<Response<SettingProxy>> SetSetting([Header("Authorization")] string authorization, [Body]SettingProxy payload);   
 
+        #endregion
+        
+        #region APP TOPIC
+        
+        [Get("topic")]
+        Task<Response<DataTableProxy<AppTopicProxy>>> GetAppTopics([Header("Authorization")] string authorization, [Body]DataTablePayload payload);
+         
+        [Post("topic")]
+        Task<Response<AppTopicProxy>> CreateAppTopic([Header("Authorization")] string authorization, [Body]AppTopicProxy payload);
+        
+        [Put("topic/edit")]
+        Task<Response<AppTopicProxy>> UpdateAppTopic([Header("Authorization")] string authorization, [Body]AppTopicProxy payload);
+        
+        [Get("topic/edit")]
+        Task<Response<AppTopicProxy>> GetAppTopic([Header("Authorization")] string authorization, [Query]Guid id);
+        
+        #endregion
+        
+        #region DRIVER
         
         [Get("driver")]
         [AllowAnyStatusCode]
@@ -36,12 +56,18 @@ namespace delivery.backoffice.API
         [Get("driver/edit")]
         Task<Response<DriverProxy>> GetDriver([Header("Authorization")] string authorization, [Query]Guid id);
         
-        [Get("dash")]
-        Task<Response<DashboardProxy>> GetDashInfo([Header("Authorization")] string authorization, [Query]int type);
-        
         [Put("driver")]
         Task<Response<DriverProxy>> SetDriver([Header("Authorization")] string authorization,
             [Query]Guid id, [Query] bool isBlocked, [Query] int reason, [Query] int level);  
+        
+        #endregion
+        
+        #region DASH
+        
+        [Get("dash")]
+        Task<Response<DashboardProxy>> GetDashInfo([Header("Authorization")] string authorization, [Query]int type);
+        
+        #endregion
         
     }
 }

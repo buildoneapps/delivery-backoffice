@@ -9,3 +9,13 @@ body {
 
 a {
 }
+
+
+.btn-register{
+    float: right;
+    margin-right: 15px;
+}
+
+.CodeMirror {
+    /*height: 250px !important;*/
+}

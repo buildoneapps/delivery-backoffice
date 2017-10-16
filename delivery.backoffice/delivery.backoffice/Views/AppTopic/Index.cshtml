@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewBag.Title = ViewData["Title"];
+    Layout = "_Layout";
+}
+
+
+<!-- Basic Setup -->
+<div class="panel panel-default">
+<div class="panel-body">
+
+    <div class="row">
+        
+        <a type="button" href="/apptopic/create/" class="btn btn-success btn-register">Adicionar</a>
+    </div>
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $("#menu_topics").addClass("active");
+            $("#example-1").dataTable({
+                "processing": true,
+                "serverSide": true,
+                "orderMulti": false,
+                "language": language,
+                "ajax": {
+                    "url": "list",
+                    "type": "POST",
+                    "dataType": "json"
+                },
+                "columnDefs":  
+                [{  
+                    "visible": false,  
+                    "searchable": false  
+                }],  
+                "columns": [  
+                    {   "width": "8%",
+                        "orderable": false,
+                        "className": "text-center",
+                        "render": function(data, type, full, meta) {
+                            if (full.isActive === true) {
+                                return '<input type="checkbox" disabled name="isActive" id="isActive" checked class="iswitch iswitch-secondary">';
+                            } else {
+                                return '<input type="checkbox" disabled name="isActive" id="isActive" class="iswitch iswitch-secondary">';
+                            }
+                             
+                        }  
+                    },
+                    { "data": "title", "title": "Título", "width": "69%" },  
+                    {   "width": "15%",
+                        "orderable": false,
+                        "className": "text-center",
+                        "render": function (data, type, full, meta)  
+                            {
+                                if (full.type === 0) {
+                                    return 'Cliente';
+                                }
+                                else if (full.type === 0) {
+                                    return 'Entregador';
+                                } else {
+                                    return 'Todos';
+                                }    
+                            }  
+                    },
+                    {   "width": "8%",
+                        "orderable": false,
+                        "className": "text-center",
+                        "render": function (data, type, full, meta)  
+                            { return '<a class="btn btn-icon btn-blue" href="/apptopic/create?id=' + full.id + '"><i class="fa-edit"></i></a>'; }  
+                    }
+                ]  
+            });
+        });
+    </script>
+
+    <table id="example-1" class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th>Ativo</th>
+            <th>Tópico</th>
+            <th>Tipo</th>
+            <th></th>
+        </tr>
+        </thead>
+
+    </table>
+
+</div>
+</div>
+

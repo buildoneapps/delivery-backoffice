@@ -294,6 +294,8 @@ Layout = "_Layout";
                     <thead>
                     <tr>
                         <th>Tipo</th>
+                        <th>Modelo</th>
+                        <th>Placa</th>
                     </tr>
                     </thead>
 
@@ -301,7 +303,9 @@ Layout = "_Layout";
                     @foreach (var v in Model.Vehicles)
                     {
                         <tr>
-                            <td>@v</td>
+                            <td>@v.Category</td>
+                            <td>@v.Model</td>
+                            <td>@v.Plate</td>
                         </tr>
                     }
                     </tbody>
