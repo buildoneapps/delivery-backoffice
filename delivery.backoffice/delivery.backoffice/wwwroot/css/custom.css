@@ -10,12 +10,11 @@ body {
 a {
 }
 
+.btn{
+    border-radius: 2px !important;
+}
 
 .btn-register{
     float: right;
     margin-right: 15px;
-}
-
-.CodeMirror {
-    /*height: 250px !important;*/
 }

@@ -41,12 +41,9 @@
                             "render": function(data, type, full, meta) {
                                 
                                 if (full.isBlocked === true) {
-                                    return '<a class="btn btn-icon btn-red"><i class="fa-lock"></i></a>';
-                                }
-                                else if (full.isBlocked === false) {
-                                    return '<a class="btn btn-icon btn-success"><i class="fa-unlock"></i></a>';
+                                    return '<input type="checkbox" disabled name="isActive" id="isActive" checked class="iswitch iswitch-red">';
                                 } else {
-                                    return '';
+                                    return '<input type="checkbox" disabled name="isActive" id="isActive" class="iswitch iswitch-red">';
                                 }
                             }  
                         },
@@ -54,7 +51,7 @@
                             "orderable": false,
                             "className": "text-center",
                             "render": function (data, type, full, meta)  
-                            { return '<a class="btn btn-icon btn-blue" href="/driver/edit/' + full.id + '"><i class="fa-gear"></i></a>'; }  
+                            { return '<a class="btn btn-icon btn-blue btn-xs" href="/driver/edit/' + full.id + '"><i class="fa-gear"></i></a>'; }  
                         }
                     ]  
                 });
