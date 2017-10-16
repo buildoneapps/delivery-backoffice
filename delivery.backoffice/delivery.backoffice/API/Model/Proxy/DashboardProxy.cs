@@ -7,5 +7,7 @@
         public int Executing { get; set; }
         
         public int Finished { get; set; }
+        
+        public int NotDelivered { get; set; }
     }
 }
